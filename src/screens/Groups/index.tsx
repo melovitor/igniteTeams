@@ -1,10 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
+import { Container } from './styles';
+
 
 export function Groups() {
   return (
-    <View >
+    <Container>
       <Text>Groups</Text>
-    </View>
+    </Container>
+    
   );
 }
