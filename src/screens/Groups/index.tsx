@@ -18,6 +18,7 @@ export function Groups() {
         data={groups}
         keyExtractor={item => item}
         renderItem={({ item }) => <GroupCard title={item}/>}
+        list
       />
     </Container>
     
