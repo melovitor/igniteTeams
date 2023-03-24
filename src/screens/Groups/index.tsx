@@ -4,10 +4,10 @@ import { Header } from '@components/Header';
 import { Container } from './styles';
 import { Highlight } from '@components/Highlight';
 import { GroupCard } from '@components/GroupCard';
-
+import { ListEmpty } from '@components/ListEmpty';
 
 export function Groups() {
-  const [groups, setGroups] = useState(['R6 Team', 'Fortnite Team']);
+  const [groups, setGroups] = useState([]);
 
   return (
     <Container>
@@ -18,7 +18,8 @@ export function Groups() {
         data={groups}
         keyExtractor={item => item}
         renderItem={({ item }) => <GroupCard title={item}/>}
-        list
+        ListEmptyComponent= {() => <ListEmpty title='Sem Turmas cadastratas!' subtitle='Que tal cadastrar a primeira turma?'/>}
+        contentContainerStyle={groups.length === 0 && {flex: 1}}
       />
     </Container>
     

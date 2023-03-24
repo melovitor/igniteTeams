@@ -6,9 +6,15 @@ export const Container = styled.View`
     align-items: center;
 `
 
-export const Message = styled.Text`
+export const Title = styled.Text`
     text-align: center;
-    font-size: ${({ theme}) => theme.FONT_SIZE.SM}px;
+    font-size: ${({ theme}) => theme.FONT_SIZE.LG}px;
+    font-family:  ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
+`
+export const SubTitle = styled.Text`
+    text-align: center;
+    font-size: ${({ theme}) => theme.FONT_SIZE.MD}px;
     font-family:  ${({ theme }) => theme.FONT_FAMILY.REGULAR};
     color: ${({ theme }) => theme.COLORS.GRAY_300};
 `
