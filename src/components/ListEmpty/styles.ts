@@ -9,8 +9,9 @@ export const Container = styled.View`
 export const Title = styled.Text`
     text-align: center;
     font-size: ${({ theme}) => theme.FONT_SIZE.LG}px;
-    font-family:  ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+    font-family:  ${({ theme }) => theme.FONT_FAMILY.BOLD};
     color: ${({ theme }) => theme.COLORS.GRAY_200};
+
 `
 export const SubTitle = styled.Text`
     text-align: center;
