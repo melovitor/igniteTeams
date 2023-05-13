@@ -14,7 +14,6 @@ export function Groups() {
   const navigation = useNavigation();
   
   function handleNewGroup(){  
-    console.log('olar')  
     navigation.navigate('new')
   }
 
