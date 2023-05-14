@@ -6,7 +6,7 @@ import { ButtonIcon } from "@components/ButtonIcon";
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
 import { FlatList, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PlayerCard } from "@components/PlayerCard";
 import { ListEmpty } from "@components/ListEmpty";
 import { Button } from "@components/Button";
@@ -41,6 +41,7 @@ export function Players(){
 
         try {
             await PlayerAddByGroup(newPlayer, group)
+            fetchPlayerByTeam()
         } catch (e) {
             if(e instanceof AppError){
                 Alert.alert('Novo player', e.message)
@@ -63,6 +64,10 @@ export function Players(){
         }
         
     }
+
+    useEffect(() => {
+        fetchPlayerByTeam()
+    }, [team])
     
     return(
         <Container>
@@ -100,10 +105,10 @@ export function Players(){
             </HeaderList>
             <FlatList
                 data={players}
-                keyExtractor={item => item}
+                keyExtractor={item => item.name}
                 renderItem={({item}) => 
                     <PlayerCard 
-                        name={item}
+                        name={item.name}
                         onRemove={() => {}}
                     />
                 }
