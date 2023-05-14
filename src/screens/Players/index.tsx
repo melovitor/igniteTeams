@@ -13,6 +13,8 @@ import { Button } from "@components/Button";
 import { AppError } from "@utils/AppError";
 import { PlayerAddByGroup } from "@storage/player/playerAddByGroup";
 import { PlayersGetByGroup } from "@storage/player/PlayersGetByGroup";
+import { playerGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
+import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 
 
 type RouteParams = {
@@ -23,7 +25,7 @@ export function Players(){
     
     const [newPlayerName, setNewPlayerName] = useState('')
     const [team, setTeam] = useState('time a')
-    const [players, setPlayers] = useState([])
+    const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
     const route = useRoute()
     const {group} = route.params as RouteParams
 
@@ -39,9 +41,6 @@ export function Players(){
 
         try {
             await PlayerAddByGroup(newPlayer, group)
-            const player = await PlayersGetByGroup(group)
-
-            console.log(player)
         } catch (e) {
             if(e instanceof AppError){
                 Alert.alert('Novo player', e.message)
@@ -52,6 +51,19 @@ export function Players(){
         }
     }
 
+    async function fetchPlayerByTeam() {
+        try {
+            
+            const playersByTeam = await playerGetByGroupAndTeam(group, team)
+            setPlayers(playersByTeam)
+
+        } catch (e) {
+            console.log(e)
+            Alert.alert('Players', "Não foi possivel carregar os players!")
+        }
+        
+    }
+    
     return(
         <Container>
             <Header showBackButton/>
