@@ -78,7 +78,7 @@ export function Players(){
             />
             <Form>
                 <Input
-                onChangeText={setNewPlayerName}
+                    onChangeText={setNewPlayerName}
                     placeholder="Nome da pessoa"
                     autoCorrect={false}
                 />
