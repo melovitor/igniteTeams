@@ -17,6 +17,7 @@ import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 import { TextInput } from "react-native";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
 import { groupRemoveByName } from "@storage/group/groupRemoveByName";
+import { Loading } from "@components/Loading";
 
 
 type RouteParams = {
@@ -24,6 +25,8 @@ type RouteParams = {
 }
 
 export function Players(){
+
+    const [isLoading, setIsLoading] = useState(true)
     
     const [newPlayerName, setNewPlayerName] = useState('')
     const [team, setTeam] = useState('time a')
@@ -60,9 +63,10 @@ export function Players(){
 
     async function fetchPlayerByTeam() {
         try {
-            
+            setIsLoading(true)                        
             const playersByTeam = await playerGetByGroupAndTeam(group, team)
             setPlayers(playersByTeam)
+            setIsLoading(false)
 
         } catch (e) {
             console.log(e)
@@ -100,7 +104,7 @@ export function Players(){
     async function handleGroupRemove() {
         Alert.alert(
             'Remover',
-            'Deseja remover este grupo?',
+            'Deseja remover esta turma?',
             [
                 {text: 'Não', style: 'destructive'},
                 {text: 'Sim', onPress: () => groupRemove()}
@@ -135,7 +139,8 @@ export function Players(){
                 />
             </Form>
             <HeaderList>
-                <FlatList
+                
+                    <FlatList
                     data={['time a', 'time b']}
                     keyExtractor={item => item}
                     renderItem={({item}) => (
@@ -148,8 +153,11 @@ export function Players(){
                     horizontal  
                     showsHorizontalScrollIndicator={false}       
                 />
-                <NumbersOfPlayers>{players.length}</NumbersOfPlayers>
+            
+            <NumbersOfPlayers>{players.length}</NumbersOfPlayers>
+                
             </HeaderList>
+            {isLoading ? <Loading/> : 
             <FlatList
                 data={players}
                 keyExtractor={item => item.name}
@@ -167,6 +175,7 @@ export function Players(){
                     players.length === 0 && {flex: 1}
                 ]}
             />
+            }
             <Button 
                 title="Remover turma" 
                 type="RED"
