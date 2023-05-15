@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { Header } from "@components/Header";
 import { Container, Form, HeaderList, NumbersOfPlayers } from "./styles";
 import { Highlight } from "@components/Highlight";
@@ -12,11 +12,11 @@ import { ListEmpty } from "@components/ListEmpty";
 import { Button } from "@components/Button";
 import { AppError } from "@utils/AppError";
 import { PlayerAddByGroup } from "@storage/player/playerAddByGroup";
-import { PlayersGetByGroup } from "@storage/player/PlayersGetByGroup";
 import { playerGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
 import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 import { TextInput } from "react-native";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
+import { groupRemoveByName } from "@storage/group/groupRemoveByName";
 
 
 type RouteParams = {
@@ -31,6 +31,7 @@ export function Players(){
     const route = useRoute()
     const {group} = route.params as RouteParams
     const newPlayerNameInputRef = useRef<TextInput>(null)
+    const navigation = useNavigation()
  
     async function handleAddPlayer() {
         if(newPlayerName.trim().length === 0){
@@ -81,6 +82,30 @@ export function Players(){
             Alert.alert('Remover player', 'Não foi possivel remover esse player!')
         }
         
+    }
+
+    async function groupRemove() {
+        try {
+
+            await groupRemoveByName(group)
+            navigation.navigate("groups")
+            
+        } catch (e) {
+            console.log(e)
+            Alert.alert('Remover grupo', 'Não foi possivel remover esse grupo!')
+        }
+        
+    }
+
+    async function handleGroupRemove() {
+        Alert.alert(
+            'Remover',
+            'Deseja remover este grupo?',
+            [
+                {text: 'Não', style: 'destructive'},
+                {text: 'Sim', onPress: () => groupRemove()}
+            ]
+        )
     }
 
     useEffect(() => {
@@ -142,7 +167,12 @@ export function Players(){
                     players.length === 0 && {flex: 1}
                 ]}
             />
-            <Button title="Remover turma" type="RED"/>
+            <Button 
+                title="Remover turma" 
+                type="RED"
+                onPress={handleGroupRemove}
+
+            />
 
             
         </Container>
